@@ -1,16 +1,18 @@
 <template>
   <div>Home
-    <ParentView></ParentView>
-    <!--<router-view />-->
+    <VxScrollView/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import ParentView from '../debug/transfer/vuex/VuexPrView'
+import VxScrollView from '../template/tmall/scroller/simple/VxScrollView'
+import VxPullDown from '../template/tmall/scroller/pull-down/VxPullDown'
+import VxPullUp from '../template/tmall/scroller/pull-up/VxPullUp'
 
 export default {
   name: 'Home',
-  components: {ParentView},
+  components: {VxPullUp, VxPullDown, VxScrollView},
   mounted: function () {
     console.log('mounted')
   },

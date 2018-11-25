@@ -1,21 +1,14 @@
 <template>
   <div id="app">
-    <!--<ParentView></ParentView>-->
-    <!--<AxiosTest></AxiosTest>-->
-    <!--<router-view/>-->
-    <NavBarTest></NavBarTest>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import LifeCycle from './debug/life/LifeCycle'
-import ParentView from './debug/router/r-view/ParentView'
-import NavBarTest from './debug/frame/vux2/nav-bar/NavBarTest'
-// import AxiosTest from './debug/http/vue-axios/AxiosTest'
 
 export default {
   name: 'App',
-  components: {NavBarTest, ParentView, LifeCycle},
+  components: {},
   mounted: function () {
     console.log('mounted')
   }
@@ -23,6 +16,13 @@ export default {
 </script>
 
 <style>
+  body,html{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
   #app {
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;

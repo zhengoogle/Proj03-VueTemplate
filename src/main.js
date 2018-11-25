@@ -7,6 +7,7 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import DataCenter from './debug/plugin/DataCenter'
 import App from './App'
+import './../static/css/common.css'
 
 Vue.config.productionTip = false
 
