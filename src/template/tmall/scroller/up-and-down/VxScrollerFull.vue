@@ -2,6 +2,7 @@
   <div class="zz-page vsf-page">
     <!-- title -->
     <div class="vsf-title-container">{{title}}</div>
+    <FirstLoadingView v-if="isFirstLoading"/>
     <!-- scroll view list -->
     <scroller lock-x scrollbar-y use-pulldown use-pullup
               @on-pulldown-loading="onPullDownEvent"
@@ -12,6 +13,8 @@
           <div v-for="(item,index) in scrollList" v-bind:key="index" class="vsf-item-container">
             <span class="vsf-item-text">列表内容{{item}}</span>
           </div>
+          <NoMoreView v-show="!listHasMore"/>
+          <NoDataView v-show="listNoData"/>
         </div>
       </div>
       <!-- custom pull down slot -->
@@ -30,14 +33,20 @@
 import {Scroller, Divider, Spinner} from 'vux'
 import PullUpView from './custom/PullUpView'
 import PullDownView from './custom/PullDownView'
+import NoMoreView from './custom/NoMoreView'
+import NoDataView from './custom/NoDataView'
+import FirstLoadingView from './custom/FirstLoadingView'
 
 export default {
   name: 'VxScrollerFull',
-  components: {PullUpView, PullDownView, Scroller, Divider, Spinner},
+  components: {FirstLoadingView, NoDataView, NoMoreView, PullUpView, PullDownView, Scroller, Divider, Spinner},
   data () {
     return {
       title: 'VxScrollerFull',
       pageSize: 10,
+      isFirstLoading: true,
+      listNoData: false,
+      listHasMore: true,
       status: {
         pulldownStatus: 'default',
         pullupStatus: 'default'
@@ -84,7 +93,10 @@ export default {
       setTimeout(function () {
         _self.$refs.scroller.donePulldown()
         _self.listDataIndex = 0
-        _self.scrollList = _self.scrollFullData()
+        _self.scrollList = _self.scrollNoData()
+        if (_self.scrollList.length === 0) {
+          _self.listNoData = true
+        }
       }, 1000)
     },
     onPullUpEvent () {
@@ -94,7 +106,8 @@ export default {
         _self.$refs.scroller.donePullup()
         _self.scrollList = _self.scrollList.concat(_self.scrollDynamicData())
         if (_self.scrollList.length !== _self.pageSize) {
-          _self.hasMore = false
+          _self.listHasMore = false
+          _self.$refs.scroller.disablePullup()
         }
       }, 1000)
     },
@@ -104,7 +117,12 @@ export default {
   },
   /**
    * 上下拉Scroller业务场景
-   *  s1.上下拉特性支持，满数据、少量数据、无数据、加载错误场景；
+   *  s1.上下拉特性支持：
+   *    首次加载：FirstLoading
+   *    满数据：LoadingMore
+   *    少量数据：NoMore
+   *    无数据：NoData
+   *    加载错误：NoData and toast
    *  s2.可定制头部底部模板内容；
    *  component:
    *  https://doc.vux.li/zh-CN/components/scroller.html
