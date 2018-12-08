@@ -1,18 +1,16 @@
 <template>
   <div>Home
-    <VxScrollView/>
+    <VxScrollerFull/>
     <router-view />
   </div>
 </template>
 
 <script>
-import VxScrollView from '../template/tmall/scroller/simple/VxScrollView'
-import VxPullDown from '../template/tmall/scroller/pull-down/VxPullDown'
-import VxPullUp from '../template/tmall/scroller/pull-up/VxPullUp'
+import VxScrollerFull from '../template/tmall/scroller/up-and-down/VxScrollerFull'
 
 export default {
   name: 'Home',
-  components: {VxPullUp, VxPullDown, VxScrollView},
+  components: {VxScrollerFull},
   mounted: function () {
     console.log('mounted')
   },

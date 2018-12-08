@@ -91,6 +91,7 @@ export default {
       console.log('onPullDownEvent')
       let _self = this
       setTimeout(function () {
+        _self.isFirstLoading = false
         _self.$refs.scroller.donePulldown()
         _self.listDataIndex = 0
         _self.scrollList = _self.scrollNoData()
